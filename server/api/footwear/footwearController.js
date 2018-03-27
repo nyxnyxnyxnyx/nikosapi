@@ -1,16 +1,14 @@
-var Post = require('./postModel');
+var Footwear = require('./footwearModel');
 var _ = require('lodash');
 var logger = require('../../util/logger');
 
 exports.params = function(req, res, next, id) {
-  Post.findById(id)
-    .populate('author', 'username')
-    .exec()
-    .then(function(post) {
-      if (!post) {
-        next(new Error('No post with that id'));
+  Footwear.findById(id)
+    .then(function(footwear) {
+      if (!footwear) {
+        next(new Error('No footwear with that id'));
       } else {
-        req.post = post;
+        req.footwear = footwear;
         next();
       }
     }, function(err) {
@@ -19,29 +17,29 @@ exports.params = function(req, res, next, id) {
 };
 
 exports.get = function(req, res, next) {
-  Post.find({})
-    .populate('author categories')
+  Footwear.find({})
+    .populate('categories')
     .exec()
-    .then(function(posts){
-      res.json(posts);
+    .then(function(footwears){
+      res.json(footwears);
     }, function(err){
       next(err);
     });
 };
 
 exports.getOne = function(req, res, next) {
-  var post = req.post;
-  res.json(post);
+  var footwear = req.footwear;
+  res.json(footwear);
 };
 
 exports.put = function(req, res, next) {
-  var post = req.post;
+  var footwear = req.footwear;
 
   var update = req.body;
 
-  _.merge(post, update);
+  _.merge(footwear, update);
 
-  post.save(function(err, saved) {
+  footwear.save(function(err, saved) {
     if (err) {
       next(err);
     } else {
@@ -51,11 +49,11 @@ exports.put = function(req, res, next) {
 };
 
 exports.post = function(req, res, next) {
-  var newpost = req.body;
-  newpost.author = req.user._id;
-  Post.create(newpost)
-    .then(function(post) {
-      res.json(post);
+  var newfootwear = req.body;
+  newfootwear.author = req.user._id;
+  Footwear.create(newfootwear)
+    .then(function(footwear) {
+      res.json(footwear);
     }, function(err) {
       logger.error(err);
       next(err);
@@ -63,7 +61,7 @@ exports.post = function(req, res, next) {
 };
 
 exports.delete = function(req, res, next) {
-  req.post.remove(function(err, removed) {
+  req.footwear.remove(function(err, removed) {
     if (err) {
       next(err);
     } else {

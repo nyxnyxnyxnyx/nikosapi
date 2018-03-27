@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 
 var UserSchema = new Schema({
   username: {
@@ -14,7 +14,7 @@ var UserSchema = new Schema({
     type: String,
     required: true
   }
-});
+},{usePushEach:true});
 
 UserSchema.pre('save', function(next) {
   if (!this.isModified('password')) return next();

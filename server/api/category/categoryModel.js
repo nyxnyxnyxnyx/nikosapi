@@ -7,6 +7,6 @@ var CategorySchema = new Schema({
     required: true,
     unique: true
   }
-});
+},{usePushEach:true});
 
 module.exports = mongoose.model('category', CategorySchema);
