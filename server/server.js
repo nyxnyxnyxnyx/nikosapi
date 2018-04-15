@@ -4,6 +4,10 @@ var api = require('./api/api');
 var config = require('./config/config');
 var logger = require('./util/logger');
 var auth = require('./auth/routes');
+var fs = require('fs');
+var path = require('path');
+
+
 // db.url is different depending on NODE_ENV
 require('mongoose').connect(config.db.url);
 
@@ -16,7 +20,19 @@ require('./middleware/appMiddlware')(app);
 // setup the api
 app.use('/api', api);
 app.use('/auth', auth);
-// set up global error handling
+app.get('/barcode',function(req,res,next){
+  fs.readFile(path.join(__dirname, '../barcode'),(err,data)=>{
+    fs.writeFile(path.join(__dirname, '../barcode'), parseInt(data)+1, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      res.send(data);
+  }); 
+  })
+  
+})
+
+
 
 app.use(function(err, req, res, next) {
   // if error thrown from jwt validation check

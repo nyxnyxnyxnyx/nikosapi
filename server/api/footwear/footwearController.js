@@ -4,6 +4,8 @@ var logger = require('../../util/logger');
 
 exports.params = function(req, res, next, id) {
   Footwear.findById(id)
+    .populate('categories')
+    .exec()
     .then(function(footwear) {
       if (!footwear) {
         next(new Error('No footwear with that id'));
@@ -28,7 +30,7 @@ exports.get = function(req, res, next) {
 };
 
 exports.getOne = function(req, res, next) {
-  var footwear = req.footwear;
+  var footwear = req.footwear
   res.json(footwear);
 };
 
@@ -36,9 +38,18 @@ exports.put = function(req, res, next) {
   var footwear = req.footwear;
 
   var update = req.body;
-
+  
   _.merge(footwear, update);
-
+  if(req.body.sizes){
+    footwear.sizes=req.body.sizes
+  }
+  if(req.body.colors){
+    footwear.colors=req.body.colors    
+  }
+  footwear.markModified('sizes');
+  footwear.markModified('colors');
+  footwear.markModified('stock');
+  footwear.markModified('images');
   footwear.save(function(err, saved) {
     if (err) {
       next(err);
@@ -69,3 +80,13 @@ exports.delete = function(req, res, next) {
     }
   });
 };
+
+
+exports.upload = function(req,res,next){
+    res.send(req.files);
+}
+
+
+// set up global error handling
+
+

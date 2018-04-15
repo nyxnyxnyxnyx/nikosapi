@@ -2,12 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var FootwearSchema = new Schema({
-  size:{
-    type: Number,
-  },
   code: {
     type: String,
-    required: true
+    required: true,
+    unique:true
   },
   cost: {
     type: Number,
@@ -18,22 +16,25 @@ var FootwearSchema = new Schema({
     required: true
   },
   billPrice:{
-    type: Number
+    type: Number,
+
   },
-  color:{
+  colors:[{
     type:String
-  },
-  barcode:{
+  }],
+  sizes:[{
+    type:Number
+  }],
+  name:{
     type:String,
     required:true,
-    unique:true
   },
-  totalStock:{
-    type:Number
+  description:{
+    type:String,
+    required:true,
   },
-  storeStock:{
-    type:Number
-  },
+  stock:[{type:Schema.Types.Mixed}],
+  images:[{type:Schema.Types.Mixed}],
   categories: [{type: Schema.Types.ObjectId, ref: 'category'}]
 },{usePushEach:true});
 
