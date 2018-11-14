@@ -10,7 +10,7 @@ var storage = multer.diskStorage({
   
   // destino del fichero
   destination: function (req, file, cb) {
-    cb(null, './uploads/')
+    cb(null, '/var/www/database/uploads/')
   },
   // renombrar fichero
   filename: function (req, file, cb) {

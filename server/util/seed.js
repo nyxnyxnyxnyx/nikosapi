@@ -5,7 +5,7 @@ var logger = require('./logger');
 logger.log('Seeding the Database');
 
 var users = [
-  {username: 'Frank', password: '1234'}
+  {username: 'Frank', password: '1234',role:"administrador"}
 ];
 
 
