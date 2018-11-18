@@ -31,6 +31,9 @@ router.route('/')
   .get(controller.get)
   .post(checkUser ,controller.post)
 
+router.route('/group')
+  .get(controller.group)
+
 router.route('/:id')
   .get(controller.getOne)
   .put(checkUser, controller.put)

@@ -29,6 +29,30 @@ exports.get = function(req, res, next) {
     });
 };
 
+exports.group = function(req, res, next) {
+  var params = req.body.parameter;
+
+    const aggregatorOpts = [{
+          $unwind: "$categories"
+      },
+      {
+          $group: {
+              _id: "$categories",
+              count: { $sum: 1 }
+          }
+      }
+    ]
+
+    Footwear.aggregate(aggregatorOpts)
+    .exec()
+    .then(function(count){
+      res.json(count);
+    }, function(err){
+      next(err);
+    });
+
+};
+
 exports.getOne = function(req, res, next) {
   var footwear = req.footwear
   res.json(footwear);
