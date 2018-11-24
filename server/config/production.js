@@ -1,7 +1,7 @@
 module.exports = {
   // disbable logging for production
-  logging: false,
-  seed: true,
+  logging: true,
+  seed: false,
   db: {
     url: 'mongodb://localhost/nodeblog'
   }
