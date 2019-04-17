@@ -13,5 +13,6 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(cors());
   app.use(override());
-  app.use(express.static(path.join(__dirname, '../../uploads')));
+  console.log(path.join(__dirname, '../../uploads'))
+  app.use('/uploads',express.static(path.join(__dirname, '../../uploads')));
 };
